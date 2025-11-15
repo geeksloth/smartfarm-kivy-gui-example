@@ -17,13 +17,24 @@ Smart farm control panel demo with:
 ## Quick Start
 
 ```bash
+# Clone the repository
 git clone https://github.com/geeksloth/smartfarm-kivy-gui-example.git
 cd smartfarm-kivy-gui-example
 
-python3 -m venv .venv
-source .venv/bin/activate
+# Create virtual environment with Python 3.13
+python3.13 -m venv smartfarm-gui
 
+# Activate virtual environment
+source smartfarm-gui/bin/activate
+
+# Upgrade pip and install setuptools
+pip install --upgrade pip
+pip install setuptools==68.0.0
+
+# Install required packages
 pip install kivy kivy_garden.matplotlib matplotlib numpy
+
+# Run the application
 python gui-3/demo2.py
 ```
 
