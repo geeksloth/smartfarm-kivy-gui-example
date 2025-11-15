@@ -1,0 +1,160 @@
+<FarmScreenManager>:
+    HomeScreen:
+    Page1:
+    Page2:
+
+<HomeScreen>:
+    name: "home" # ชื่อหน้า screen
+    BoxLayout:   # layout แบบกล่อง
+        orientation: "horizontal" # หรือ vertical
+        Label:
+            text: "สวัสดีครับ"
+            font_size: '40sp'
+            bold: True
+            font_name: 'Thai'
+            halign: 'right'
+            valign: 'top'
+            text_size: self.size
+            color: 216/255,151/255,148/255,1
+        Button: 
+            text: "ปุ่ม"
+            font_size: '40sp'
+            bold: True
+            font_name: "Thai"
+            background_color: (0.2,0.6,0.86, 1)
+            on_release:
+                root.manager.current = "page2"
+        
+        GridLayout: # layout แบบตาราง
+            cols: 2
+            rows: 2
+            Label:
+                text: "text 1"
+            Button:
+                text: "button 1"
+            Label:
+                text: "text 2"
+            Button:
+                text: "button 2"
+        
+<Page1>:
+    name: "page1"
+    FloatLayout:
+        Button:
+            text: "Go Home"
+            on_release:
+                root.manager.current = "home"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+<Page2>:
+    name: "page2"
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: 4/255, 34/255, 75/255,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            size_hint_y: 0.1
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 4/255, 34/255, 75/255,0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "ระบบฟาร์มอัจฉริยะ"
+                font_size: '40sp'
+                font_name: 'Thai'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+                bold: True
+                color: 1,1,1,1
+                padding: [20,0,0,0]
+                size_hint_x: 0.4
+            Widget:
+                size_hint_x: 0.3
+            Button:
+                size_hint_x: 0.3
+                text: "กลับ"
+                font_name: 'Thai'
+                background_normal: 'high-temperature.png'
+                bold: True
+                font_size: '40sp'
+                on_press:
+                    root.manager.current = "home"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: 0.2
+            canvas.before:
+                Color:
+                    rgba: 16/255, 115/255, 19/255,0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                size_hint_x: 0.5
+                canvas.before:
+                    Color:
+                        rgba: 1/255, 1/255, 1/255,0.5
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Label:
+                    text: "เปิดปิดระบบน้ำ"
+                    font_size: '30sp'
+                    font_name: 'Thai'
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                    bold: True
+                    color: 1,1,1,1
+                    padding: [20,0,0,0]
+                Switch:
+                    active: True
+                    size_hint_x: 0.4
+                    on_active:
+                        pass
+            BoxLayout:
+                size_hint_x: 0.5
+                canvas.before:
+                    Color:
+                        rgba: 0/255, 50/255, 100/255,0.8
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Slider:
+                    min: 0
+                    max: 100
+                    value: 50
+                    step: 1
+                    on_value:
+                        print(self.value)
+        BoxLayout:
+            size_hint_y: 0.7
+            canvas.before:
+                Color:
+                    rgba: 116/255, 233/255, 156/255,0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                spacing: 10
+                BoxLayout:
+                    Image:
+                        source: 'high-temperature.png'
+                        size_hint_x: 0.5
+                        size_hint_y: 0.5
+                BoxLayout:
+                    padding: [20,20,20,20]
+                    TextInput:
+                        hint_text: 'กรอกข้อมูล'
+                        font_name: 'Thai'
+                        bold: True
+                        font_size: '40sp'
+                        size_hint_y: 0.2
+                        size_hint_x: 0.5
+        

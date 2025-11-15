@@ -1,0 +1,350 @@
+#:kivy 2.3.1
+<FarmScreenManager>:   # ตัวจัดการระบบหน้า ระบุว่าโปรแกรมเรามีหน้าจอที่ชื่ออะไรบ้าง 
+    HomeScreen:         
+    Page1:
+    Page2:
+
+<HomeScreen>:
+    name: "home" # ชื่อหน้า screen
+    BoxLayout:   # layout แบบกล่อง
+        orientation: "horizontal" # หรือ vertical
+        canvas.before:
+            Color:
+                rgba: 1,1,1,1
+            Rectangle:
+                source: "bg.jpg"
+                pos: self.pos
+                size: self.size
+        Label:
+            text: "สวัสดีครับ หน้าแรกสำหรับทดสอบระบบ Layout"
+            font_size: '40sp'
+            bold: True
+            font_name: 'Thai'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.size
+            color: 2/255,50/255,13/255,1
+            padding: [0,0,0,200]
+        Button: 
+            text: "เข้าสู่หน้าหลัก"
+            font_size: '40sp'
+            bold: True
+            font_name: "Thai"
+            background_color: (0.2,0.6,0.86, 1)
+            on_release:
+                root.manager.current = "page2"
+            
+        GridLayout: # layout แบบตาราง 
+            cols: 2   # เรียงเป็น 2 คอลัมน์ 2 แถว คือ 4 ช่อง
+            rows: 2
+            Label:
+                text: "text 1"
+                color: 0,0,0,1
+            Button:
+                text: "button 1"
+                color: 0,0,0,1
+                on_release:
+                    root.manager.current = "page1"
+            Label:
+                text: "text 2"
+                color: 0,0,0,1
+            Button:
+                text: "button 2"
+                color: 0,0,0,1
+        
+<Page1>:
+    name: "page1"
+    FloatLayout:
+        Button:
+            text: "Go Home"
+            on_release:
+                root.manager.current = "home"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            
+<Page2>:
+    name: "page2"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 2   # กำหนดช่องว่างระหว่างกันของ widget ภายใน layout นี้
+        canvas.before:
+            Rectangle:
+                source: "bg.jpg"  # ใช้ภาพเป็นพื้นหลัง โดยแสดงผลเป็นสี่เหลี่ยม
+                pos: self.pos      # ตำแหน่งของภาพให้อิงตาม layout หลัก
+                size: self.size    # ขนาดภาพให้อิงตาม layout หลัก
+        BoxLayout:
+            size_hint_y: 0.1  # กำหนดขนาดความสูง layout
+            spacing: 5
+            canvas.before:
+                Color:
+                    rgba: 4/255, 34/255, 75/255,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "ระบบฟาร์มอัจฉริยะ"
+                font_size: '40sp'
+                font_name: 'Thai'
+                halign: 'left'          # ต้องการให้ชิด left center right
+                valign: 'middle'        # ต้องการให้จัดเรียงแบบ top middle bottom
+                text_size: self.size    # กำหนดขนาดของ label ให้อิงตามขนาดที่ layout แบ่งให้ 
+                bold: True
+                color: 1,1,1,1
+                padding: [20,0,0,0]     # ห่างออกจากด้าน ซ้าย บน ขวา ล่าง
+                size_hint_x: 0.35       # กำหนดขนาดความกว้าง layout
+            Label:
+                text: root.time_label
+                font_size: '40sp'
+                font_name: 'Thai'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+                bold: True
+                padding: [0,0,0,0]
+                size_hint_x: 0.15
+            Widget:
+                size_hint_x: 0.20
+            Button:
+                size_hint_x: 0.3
+                text: "ย้อนกลับ"
+                font_name: 'Thai'
+                background_normal: 'high-temperature.png'
+                bold: True
+                font_size: '40sp'
+                on_press:
+                    root.manager.current = "home"
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 10
+            size_hint_y: 0.15
+            padding: [5]
+            BoxLayout:
+                size_hint_x: 0.4
+                padding: [0,0,20,0]
+                canvas.before:
+                    Color:
+                        #rgba: [250/255, 226/255, 90/255, 1] #root.light_color
+                        rgba: root.light_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [16]
+                    Color:
+                        rgba: 254/255, 77/255, 0/255, 1
+                    Line:
+                        rounded_rectangle: (*self.pos, *self.size, 16)
+                        width: 2
+                Label:
+                    text: "สถานะไฟ : " + root.light_status
+                    font_size: '30sp'
+                    font_name: 'Thai'
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                    bold: True
+                    color: 0,0,0,1
+                    padding: [20,0,0,0]
+                Switch:
+                    active: False
+                    size_hint_x: 0.4
+                    on_active:
+                        root.toggle_light(self)
+                        print(self.active)
+            BoxLayout:
+                size_hint_x: 0.6
+                canvas.before:
+                    Color:
+                        rgba: 30/255, 162/255, 228/255,1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: (self.width * root.water_level / 100, self.height)
+                        radius: [16]
+                    Color:
+                        rgba: 4/255, 34/255, 75/255, 1
+                    Line:
+                        rounded_rectangle: (*self.pos, *self.size, 16)
+                        width: 2
+                Label: 
+
+                    size_hint_x: 0.4
+                    text: f"ระดับน้ำ : {root.water_level}%"
+                    font_name: "Thai"
+                    font_size: "30sp"
+                    bold: True
+                    color: 0,0,0,1
+                Slider:
+                    size_hint_x: 0.6
+                    orientation: 'horizontal'
+                    value_track: True
+                    value_track_color: 0, 0, 1, 1   # สีแดง
+                    
+                    min: 0
+                    max: 100
+                    step: 1
+                    on_value:
+                        root.water_level = int(self.value)
+                        print(self.value)
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.2
+            BoxLayout:
+                spacing: 5
+                BoxLayout:
+                    size_hint_x: 0.2
+                    padding: [5,5]
+                    Image:
+                        source: 'note.png'
+                BoxLayout:
+                    padding: [0,10,0,10]
+                    TextInput:
+                        id: text_input_id
+                        hint_text: 'กรุณากรอกข้อความ'
+                        font_name: 'Thai'
+                        bold: True
+                        font_size: '25sp'
+                        on_text:
+                            print(self.text)
+                BoxLayout:
+                    spacing: 10
+                    padding: [0,20,10,20]
+                    Button:
+                        text: "ยืนยัน"
+                        background_color: 24/255,87/255,173/255,1
+                        font_name: "Thai"
+                        font_size: "30sp"
+                        bold: True
+                        on_release:
+                            root.update_text_label()
+                    Button:
+                        text: "ล้างข้อมูล"
+                        background_color: 180/255,18/255,18/255,1
+                        font_name: "Thai"
+                        font_size: "30sp"
+                        bold: True
+                        on_release:
+                            root.clear_info()
+                    Button:
+                        text: "แสดงข้อมูล"
+                        background_color: 10/255,90/255,10/255,1
+                        font_name: "Thai"
+                        font_size: "30sp"
+                        bold: True
+                        on_release:
+                            root.open_info()
+        BoxLayout:
+            size_hint_y: 0.55
+            padding: [5]
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 5
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: 10
+                    size_hint_x: 0.3
+                    BoxLayout:
+                        padding: [10,10,10,10]
+                        canvas.before:
+                            Color:
+                                rgba: 55/255, 52/255, 169/255, 0.9
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [15]
+                        Label:
+                            id: show_label_id
+                            text: "แสดงข้อความที่นี่"
+                            font_name: "Thai"
+                            font_size: "26sp"
+                            bold: True
+                            text_size: self.size
+                            halign: "left"
+                            valign: "top"
+                    BoxLayout:
+                        canvas.before:
+                            Color:
+                                rgba: 150/255, 150/255, 150/255, 0.9
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [15]
+                        Image:
+                            source: "high-temperature.png"
+                            size_hint_x: 0.5
+                        BoxLayout:
+                            orientation: 'vertical'
+                            padding: [20,10,0,10]
+                            Label:
+                                text: "อุณหภูมิ"
+                                font_name: "Thai"
+                                font_size: "30sp"
+                                bold: True
+                                text_size: self.size
+                                halign: "left"
+                                valign: "top"
+                                color: 0,0,0,1
+                            Label:
+                                text: str(root.temp_label)+ " °C"
+                                font_name: "Thai"
+                                font_size: "40sp"
+                                bold: True
+                                text_size: self.size
+                                halign: "left"
+                                valign: "top"
+                                color: 0,0,0,1
+                BoxLayout:
+                    id: temp_dashboard
+                    size_hint_x: 0.7
+                    padding: [0,0,10,0]
+                    canvas:
+                        Color:
+                            rgba: 19/255, 90/255, 75/255, 0.7
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15]
+                            
+<InformationPopup>:
+    auto_dismiss: False
+    size_hint: 0.7, 0.7
+    title: "Information"
+    BoxLayout:
+        orientation: 'vertical'
+        GridLayout:
+            cols: 2
+            rows: 2
+            Image:
+                source: 'high-temperature.png'
+            Label:
+
+                text: root.page2_info.ids.text_input_id.text
+                font_name: "Thai"
+                font_size: "30sp"
+                bold: True
+            Label: 
+                text: "สถานะไฟ : " + root.page2_info.light_status
+                font_name: "Thai"
+                font_size: "30sp"
+                bold: True
+            Label:
+                text: "ระดับน้ำ : " + str(root.page2_info.water_level) + "%"
+                font_name: "Thai"
+                font_size: "30sp"
+                bold: True
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            size_hint_y: 0.25
+            Button:
+                text: "ยืนยัน"
+                font_name: "Thai"
+                font_size: "30sp"
+                bold: True
+                on_release: 
+                    pass
+                    #root.page2.confirm_text()
+            Button:
+                text: "ยกเลิก"
+                font_name: "Thai"
+                font_size: "30sp"
+                bold: True
+                on_release: 
+                    root.dismiss()            

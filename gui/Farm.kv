@@ -1,0 +1,19 @@
+<FarmScreenManager>:
+    HomeScreen:
+        name: "home"
+    Page1:
+        name: "page1"
+
+<HomeScreen>:
+    name: "home"
+    Button:
+        text: "Go to Page 1"
+        on_release:
+            root.manager.current = "page1"
+
+<Page1>:
+    name: "page1"
+    Button:
+        text: "Go to Home Screen"
+        on_release:
+            root.manager.current = "home"
